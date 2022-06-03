@@ -6,6 +6,11 @@ import { BN } from "bn.js";
 import { expect, should } from "chai";
 import { TicTacToe } from "../target/types/tic_tac_toe";
 
+
+// TODO: write a function to display board from accoutn's state
+// Add test for block height
+// Test edge cases
+
 describe("tic-tac-toe", () => {
   // Configure the client to use the local cluster.
   anchor.setProvider(anchor.AnchorProvider.env());
@@ -57,7 +62,6 @@ describe("tic-tac-toe", () => {
   
 
     let challangeBalance = await connection.getBalance(challange)
-    // console.log(challangeBalance)
     expect(challangeBalance).to.be.above(0.1*LAMPORTS_PER_SOL)
   })
 
@@ -152,6 +156,7 @@ describe("tic-tac-toe", () => {
       })
       .signers([playerTwo])
       .rpc()
+    console.log("|X|-|-|\n|-|-|-|\n|-|-|-|\n")
   })
 
   it("Failt to take a second move as THE SAME player second time in a row!", async () => {
@@ -182,6 +187,7 @@ describe("tic-tac-toe", () => {
       })
       .signers([playerOne])
       .rpc()
+      console.log("|X|-|-|\n|-|O|-|\n|-|-|-|\n")
   })
 
   it("Failt to take a third move, in the taken spot!", async () => {
@@ -219,7 +225,86 @@ describe("tic-tac-toe", () => {
       return
     }
     expect.fail(null, null, "Chosen spots should be in range 0-2.")
-    
-    
+  })
+
+  it("Play out the rest of the game", async () => {
+    await program.methods
+      .takeMove(0, 2)
+      .accounts({
+        player: playerTwo.publicKey,
+        gameAccount: game,
+        clock: SYSVAR_CLOCK_PUBKEY
+      })
+      .signers([playerTwo])
+      .rpc()
+      console.log("|X|-|-|\n|-|O|-|\n|X|-|-|\n")
+
+    await program.methods
+      .takeMove(2, 2)
+      .accounts({
+        player: playerOne.publicKey,
+        gameAccount: game,
+        clock: SYSVAR_CLOCK_PUBKEY
+      })
+      .signers([playerOne])
+      .rpc()
+      console.log("|X|-|-|\n|-|O|-|\n|X|-|O|\n")
+
+    await program.methods
+      .takeMove(0, 1)
+      .accounts({
+        player: playerTwo.publicKey,
+        gameAccount: game,
+        clock: SYSVAR_CLOCK_PUBKEY
+      })
+      .signers([playerTwo])
+      .rpc()
+      console.log("|X|-|-|\n|X|O|-|\n|X|-|O|\n")
+  })
+  it("Fail to take another move since the game is over!", async () => {
+    try {
+    await program.methods
+      .takeMove(1, 2)
+      .accounts({
+        player: playerTwo.publicKey,
+        gameAccount: game,
+        clock: SYSVAR_CLOCK_PUBKEY
+      })
+      .signers([playerTwo])
+      .rpc()
+      console.log("|X|-|-|\n|X|O|-|\n|X|-|-|\n")
+    } catch {
+      return
+    }
+    expect.fail(null, null, "Should fail to play after the game is over.")
+  })
+
+  it("Withdraw the money since they won :) !", async () => {
+    await program.methods
+      .withdrawStake()
+      .accounts({
+        player: playerTwo.publicKey,
+        gameAccount: game,
+        clock: SYSVAR_CLOCK_PUBKEY
+      })
+      .signers([playerTwo])
+      .rpc()
+  })
+
+  it("Fail to withdraw since the game does not exist", async () => {
+    try {
+      await program.methods
+        .withdrawStake()
+        .accounts({
+          player: playerTwo.publicKey,
+          gameAccount: game,
+          clock: SYSVAR_CLOCK_PUBKEY
+        })
+        .signers([playerTwo])
+        .rpc()
+    } catch {
+      return
+    }
+    expect.fail(null, null, "Should fail to withdraw from game that has already been closed.")
   })
 });

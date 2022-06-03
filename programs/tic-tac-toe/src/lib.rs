@@ -27,6 +27,10 @@ pub mod tic_tac_toe {
     pub fn cancel_challange(ctx: Context<CancelChallange>) -> Result<()> {
         instructions::cancel_challange::handler(ctx)
     }
+
+    pub fn withdraw_stake(ctx: Context<WithdrawStake>) -> Result<()> {
+        instructions::withdraw_stake::handler(ctx)
+    }
 }
 
 // #[derive(Accounts

@@ -11,3 +11,6 @@ pub use take_turn::*;
 
 pub mod cancel_challange;
 pub use cancel_challange::*;
+
+pub mod withdraw_stake;
+pub use withdraw_stake::*;

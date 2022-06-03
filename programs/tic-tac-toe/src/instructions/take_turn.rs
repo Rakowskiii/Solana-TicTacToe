@@ -48,8 +48,25 @@ pub fn handler(ctx: Context<TakeTurn>, x: u8, y: u8) -> Result<()> {
     game.last_move_height = clock.unix_timestamp;
 
     // TODO: win logic here 
-    game.winner = Some(ctx.accounts.player.key());
+    // We tought here to use another function for that
+    // But then it would be possible to cheat that system
+    
+    let gb = &game.gameboard;
+    // Horizontal checks
+    if game.same([gb[0][0], gb[0][1], gb[0][2]]) ||
+    game.same([gb[1][0], gb[1][1], gb[1][2]]) || 
+    game.same([gb[2][0], gb[2][1], gb[2][2]]) || 
 
+    // Vertical checks
+    game.same([gb[0][0], gb[1][0], gb[2][0]]) || 
+    game.same([gb[0][1], gb[1][1], gb[2][1]]) || 
+    game.same([gb[0][2], gb[1][2], gb[2][2]]) ||
+    
+    // Cross checks
+    game.same([gb[0][0], gb[1][1], gb[2][2]]) ||
+    game.same([gb[2][0], gb[1][1], gb[0][2]]) {
+        game.winner = Some(ctx.accounts.player.key())
+    }
 
     Ok(())
 }

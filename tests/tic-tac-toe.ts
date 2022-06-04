@@ -23,7 +23,7 @@ describe("tic-tac-toe", () => {
   const playerTwo = anchor.web3.Keypair.generate();
   
   const [challange, _challangeBump] = findProgramAddressSync([playerOne.publicKey.toBuffer(), Buffer.from("challange")], program.programId) 
-  const [game, _gameBump] = findProgramAddressSync([challange.toBuffer(), Buffer.from("game")], program.programId) 
+  const [game, _gameBump] = findProgramAddressSync([challange.toBuffer(), playerTwo.publicKey.toBuffer() ,Buffer.from("game")], program.programId) 
 
 
   before("Init!", async () => {

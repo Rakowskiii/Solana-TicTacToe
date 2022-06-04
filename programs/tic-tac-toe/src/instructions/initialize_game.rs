@@ -75,9 +75,11 @@ pub struct InitializeGame<'info>{
     pub game_taker: Signer<'info>,
     #[account(
         init,
-        // TODO: change the seeds 
-        // Maciej.key(),game_taker.key() b"challenge", b"game"
-        seeds = [challange_address.key().as_ref(), b"game"],
+        seeds = [
+            challange_address.key().as_ref(),
+            game_taker.key().as_ref(), 
+            b"game"
+        ],
         bump,
         payer = game_taker,
         space = 8 + std::mem::size_of::<Game>(),

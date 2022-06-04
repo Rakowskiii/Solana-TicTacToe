@@ -6,7 +6,7 @@ use instructions::*;
 
 
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("DLBUzNyHxH8Yqn6Jdm15wKchLUwvRaQtT5WoaFQxEsWp");
 
 #[program]
 pub mod tic_tac_toe {

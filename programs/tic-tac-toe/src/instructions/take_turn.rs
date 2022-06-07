@@ -36,10 +36,11 @@ pub fn handler(ctx: Context<TakeTurn>, x: u8, y: u8) -> Result<()> {
 
     game.gameboard[x][y] = Some(game.whose_turn);
 
-    match game.whose_turn {
-        Sign::X => game.whose_turn = Sign::O,
-        Sign::O => game.whose_turn = Sign::X
-    }
+    game.whose_turn = game.whose_turn.switch();
+    // match game.whose_turn {
+    //     Sign::X => game.whose_turn = Sign::O,
+    //     Sign::O => game.whose_turn = Sign::X
+    // }
 
     game.last_move_height = clock.unix_timestamp;
 

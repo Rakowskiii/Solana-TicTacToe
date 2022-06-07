@@ -41,9 +41,6 @@ describe("tic-tac-toe", () => {
   })
 
   it("Initialise first challange!", async () => {
-    // Add your test here.
-    // const tx = await program.methods.initialize().rpc();
-    // console.log("Your transaction signature", tx);
     await program.methods
       .initializeChallange(new BN(0.1* LAMPORTS_PER_SOL))
       .accounts(
@@ -280,6 +277,11 @@ describe("tic-tac-toe", () => {
   })
 
   it("Withdraw the money since they won :) !", async () => {
+    // let gameBalance = await connection.getBalance(challange)
+    // let winnerBalance = await connection.getBalance(playerTwo.publicKey)
+    // console.log(`Pre-withdraw: \n Game balance: ${gameBalance}\n ${winnerBalance}`)
+    // console.log(`Pre-withdraw: \n Game balance: ${gameBalance}\n ${winnerBalance}`)
+
     await program.methods
       .withdrawStake()
       .accounts({

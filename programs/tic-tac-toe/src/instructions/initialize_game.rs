@@ -9,6 +9,8 @@ use anchor_lang::{
 };
 use crate::state::*;
 
+// TODO:  close => game_account? 
+
 
 pub fn handler(ctx: Context<InitializeGame>) -> Result<()> {
     let game = &mut ctx.accounts.game_account;

@@ -24,6 +24,7 @@ pub fn handler(ctx: Context<WithdrawStake>) -> Result<()> {
         }
         return Err(error!(TicTacToeError::NotTheWinner))
     }
+    
     // Close handles the transfer
     Ok(())
 }

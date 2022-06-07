@@ -1,11 +1,7 @@
 use anchor_lang::{
     prelude::*, 
 };
-// use anchor_spl::{
-//     associated_token::AssociatedToken,
-//     mint,
-//     token::{TokenAccount, Mint, Token}
-// };
+
 use crate::state::*;
 
 
@@ -43,7 +39,6 @@ pub struct WithdrawStake<'info>{
         close = player
     )]
     pub game_account: Account<'info, Game>,
-    pub system_program: Program<'info, System>,
     pub clock: Sysvar<'info, Clock>
 }
 
